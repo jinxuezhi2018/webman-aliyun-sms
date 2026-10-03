@@ -116,7 +116,8 @@ class SendSms
         if (is_null($chars)) {
             $chars = "0123456789";
         }
-        mt_srand(10000000 * (double)microtime());
+        // PHP 8.1+ 禁止 float 隐式转 int：先取整再播种（PHP 本身会自动播种，此行仅为兼容保留）
+        mt_srand((int) round(10000000 * (double) microtime()));
         for ($i = 0, $str = '', $lc = strlen($chars) - 1; $i < $len; $i++) {
             $str .= $chars[mt_rand(0, $lc)];
         }
